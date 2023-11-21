@@ -12,15 +12,15 @@ xmlns:f="http://java.sun.com/jsf/core">
 <table>
 <tr>
 <td>Nombre:</td>
-<td><h:inputText id="nombre" value="#{login.nombre}"></h:inputText></td>
+<td><h:inputText id="nombre" value="#{QueryQuestions.nombre}"></h:inputText></td>
 </tr>
 <tr>
 <td>Contraseña:</td>
-<td><h:inputSecret id="pass" value="#{login.password}"></h:inputSecret></td>
+<td><h:inputSecret id="pass" value="#{QueryQuestions.password}"></h:inputSecret></td>
 </tr>
 </table>
 <p>
-<h:commandButton value="Aceptar" action="#{login.comprobar}"/>
+<h:commandButton value="Aceptar" action="#{QueryQuestions.comprobar}"/>
 </p>
 </h:form>
 </h:body>
