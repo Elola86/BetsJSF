@@ -5,14 +5,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
     version="2.0">
-	<!--<managed-bean>
+	<managed-bean>
 		  <managed-bean-name>createQuestions</managed-bean-name>
 		<managed-bean-class>modelo.bean.CreateQuestionsBean</managed-bean-class>
 		<managed-bean-scope>application</managed-bean-scope>
 		<managed-bean-name>queryQuestions</managed-bean-name>
 		<managed-bean-class>modelo.bean.QueryQuestionsBean</managed-bean-class>
 		<managed-bean-scope>application</managed-bean-scope>
-	</managed-bean>-->
+	</managed-bean>
 	<navigation-rule>
  		<display-name>Main.xhtml</display-name>
  		<from-view-id>/Main.xhtml</from-view-id>
