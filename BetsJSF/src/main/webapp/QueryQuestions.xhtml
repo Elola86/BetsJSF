@@ -38,8 +38,11 @@ xmlns:p="http://primefaces.org/ui">
         /* Otros estilos si es necesario */
     }
 </style>
+<h:messages id="mensajes" style="color:blue"/>
 <div style="display: flex;">
 	<p:calendar id="fecha"  navigator="true" mode="inline" style="margin-right: 20px">
+	<p:ajax event="dateSelect" listener="#{queryQuestions.onDateSelect}"
+	update="mensajes"></p:ajax>
 	</p:calendar>
 	
 	<table class="event-table">
