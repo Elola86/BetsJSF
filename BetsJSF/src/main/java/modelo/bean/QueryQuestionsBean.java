@@ -9,16 +9,19 @@ import org.primefaces.event.SelectEvent;
 
 public class QueryQuestionsBean {
 
-	private Date fecha;
+	private String fecha;
 
-	public Date getFecha() {
+	public String getFecha() {
 		return fecha;
 	}
-	public void setFecha(Date fecha) {
+	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
 	public void onDateSelect(SelectEvent event) {
 		 FacesContext.getCurrentInstance().addMessage(null,
 		 new FacesMessage("Fecha escogida: "+event.getObject()));
+		 this.setFecha(event.getObject().toString());
+		 System.out.println(fecha);
 	} 
+	
 }
