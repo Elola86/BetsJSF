@@ -11,6 +11,9 @@ public class QueryQuestionsBean {
 
 	private String fecha;
 
+	public QueryQuestionsBean() {
+		
+	}
 	public String getFecha() {
 		return fecha;
 	}
