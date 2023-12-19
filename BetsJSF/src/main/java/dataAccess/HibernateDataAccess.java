@@ -16,6 +16,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import configuration.ConfigXML;
@@ -42,6 +43,7 @@ public class HibernateDataAccess {
 
 	public HibernateDataAccess()  {	
 		// new HibernateDataAccess(false);
+		initializeDB();
 	}
 	
 	
@@ -50,7 +52,7 @@ public class HibernateDataAccess {
 	 * This method is invoked by the business logic (constructor of BLFacadeImplementation) when the option "initialize" is declared in the tag dataBaseOpenMode of resources/config.xml file
 	 */	
 	public void initializeDB(){
-		
+		//public static void main(String[] args) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		try {
@@ -150,6 +152,10 @@ public class HibernateDataAccess {
 			session.save(q5);
 			session.save(q6);
 			
+			
+			
+			
+			
 			session.getTransaction().commit();
 			System.out.println("Db initialized");
 		}
@@ -172,17 +178,26 @@ public class HibernateDataAccess {
 		session.beginTransaction();
 		System.out.println(">> DataAccess: createQuestion=> event= "+event+" question= "+question+" betMinimum="+betMinimum);
 		System.out.println(session +" "+event);
-		
-			Event ev = db.find(Event.class, event.getEventNumber());
+		Event ev = null;
+		try {
+				//Event ev = db.find(Event.class, event.getEventNumber());
+				Query q = session.createQuery("select e from Event e where e.eventNumber= :eventNumber");
+				q.setParameter("eventNumber", event.getEventNumber());
+				ev =  (Event) q.uniqueResult();
+				System.out.println(ev.getDescription());
+			}catch (Exception ex){
+				ex.printStackTrace();
+			}
+			
 			
 			if (ev.DoesQuestionExists(question)) throw new QuestionAlreadyExist(ResourceBundle.getBundle("Etiquetas").getString("ErrorQueryAlreadyExist"));
 			
-			db.getTransaction().begin();
+			
 			Question q = ev.addQuestion(question, betMinimum);
 			//db.persist(q);
-			db.persist(ev); // db.persist(q) not required when CascadeType.PERSIST is added in questions property of Event class
-							// @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
-			db.getTransaction().commit();
+			session.save(q); // db.persist(q) not required when CascadeType.PERSIST is added in questions property of Event class
+			session.save(ev);		// @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
+			session.getTransaction().commit();
 			return q;
 		
 	}
@@ -197,10 +212,12 @@ public class HibernateDataAccess {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		System.out.println(">> DataAccess: getEvents");
-		List result = session.createQuery("from Event where ").list();
+		Query q = session.createQuery("from Event where eventDate=:eventDate");
+		q.setParameter("eventDate", date);
+		List<Event> result =  q.list();
 		session.getTransaction().commit();
 		return result;
-		 
+		/* 
 		List<Event> res = new ArrayList<Event>();	
 		TypedQuery<Event> query = db.createQuery("SELECT ev FROM Event ev WHERE ev.eventDate=?1",Event.class);   
 		query.setParameter(1, date);
@@ -210,6 +227,7 @@ public class HibernateDataAccess {
 		   res.add(ev);
 		  }
 	 	return res;
+	 	*/
 	}
 	
 	/**
@@ -218,22 +236,27 @@ public class HibernateDataAccess {
 	 * @param date of the month for which days with events want to be retrieved 
 	 * @return collection of dates
 	 */
-	public Vector<Date> getEventsMonth(Date date) {
+	public List<Date> getEventsMonth(Date date) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
 		System.out.println(">> DataAccess: getEventsMonth");
-		Vector<Date> res = new Vector<Date>();	
+		List<Date> res = new ArrayList<Date>();	
 		
 		Date firstDayMonthDate= UtilDate.firstDayMonth(date);
 		Date lastDayMonthDate= UtilDate.lastDayMonth(date);
 				
 		
-		TypedQuery<Date> query = db.createQuery("SELECT DISTINCT ev.eventDate FROM Event ev WHERE ev.eventDate BETWEEN ?1 and ?2",Date.class);   
-		query.setParameter(1, firstDayMonthDate);
-		query.setParameter(2, lastDayMonthDate);
-		List<Date> dates = query.getResultList();
+		//TypedQuery<Date> query = db.createQuery("SELECT DISTINCT ev.eventDate FROM Event ev WHERE ev.eventDate BETWEEN ?1 and ?2",Date.class);   
+		Query q = session.createQuery("SELECT DISTINCT ev.eventDate FROM Event ev WHERE ev.eventDate BETWEEN :startDate and :endDate");
+		q.setParameter("startDate", firstDayMonthDate);
+		q.setParameter("endDate", lastDayMonthDate);
+		List<Date> dates = q.list();
 	 	 for (Date d:dates){
-	 	   System.out.println(d.toString());		 
-		   res.add(d);
+	 	   System.out.println(d.toString());	
+	 	   res.add(d);
 		  }
+	 	 
+	 	
 	 	return res;
 	}
 	
@@ -262,7 +285,15 @@ public void open(){
 
 public boolean existQuestion(Event event, String question) {
 	System.out.println(">> DataAccess: existQuestion=> event= "+event+" question= "+question);
-	Event ev = db.find(Event.class, event.getEventNumber());
+	
+	Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+	session.beginTransaction();
+	
+	Query q = session.createQuery("select e from Event e where e.eventNumber= :eventNumber");
+	q.setParameter("eventNumber", event.getEventNumber());
+	Event ev =  (Event) q.uniqueResult();
+	
+	//Event ev = db.find(Event.class, event.getEventNumber());
 	return ev.DoesQuestionExists(question);
 	
 }
@@ -271,7 +302,7 @@ public boolean existQuestion(Event event, String question) {
 		System.out.println("DataBase closed");
 	}*/
 
-	
+	/*
 
 	@Override
 	public void emptyDatabase() {
@@ -281,6 +312,6 @@ public boolean existQuestion(Event event, String question) {
 		File f2=new File(c.getDbFilename()+"$");
 		f2.delete();
 		
-	}
+	}*/
 
 }

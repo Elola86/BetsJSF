@@ -3,7 +3,7 @@ package businessLogic;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Vector;
+
 
 
 
@@ -24,7 +24,7 @@ public class BLFacadeImplementation  implements BLFacade {
 
 	public BLFacadeImplementation()  {		
 		System.out.println("Creating BLFacadeImplementation instance");
-
+		dbManager = new HibernateDataAccess();
 		
 		/*if (c.getDataBaseOpenMode().equals("initialize")) {
 			
@@ -39,8 +39,9 @@ public class BLFacadeImplementation  implements BLFacade {
 		
 		System.out.println("Creating BLFacadeImplementation instance with DataAccess parameter");	
 
-			da.initializeDB();
-			dbManager=da;		
+			
+			dbManager=da;	
+			dbManager.initializeDB();
 	}
 	
 
@@ -80,7 +81,7 @@ public class BLFacadeImplementation  implements BLFacade {
     
 	public List<Event> getEvents(Date date)  {
 
-		List<Event>  events=dbManager.getEvents(date);
+		List<Event>  events= dbManager.getEvents(date);
 		return events;
 	}
 
@@ -93,7 +94,7 @@ public class BLFacadeImplementation  implements BLFacade {
 	 */
 	public List<Date> getEventsMonth(Date date) {
 
-		Vector<Date> dates=dbManager.getEventsMonth(date);
+		List<Date> dates=dbManager.getEventsMonth(date);
 		return dates;
 	}
 	

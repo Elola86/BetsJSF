@@ -15,14 +15,15 @@ xmlns:p="http://primefaces.org/ui">
             <table>
                 <tr>
                     <td>
-                        <p:calendar navigator="true" mode="inline">
+                        <p:calendar navigator="true" mode="inline" value="#{createQuestions.fechaEvento}" >
                         <p:ajax event="dateSelect" listener="#{createQuestions.guardarFecha}" update="Eventos"/>
                         </p:calendar>
                     </td>
                   
                     <td>
-						<h:selectOneMenu id="Eventos" >
+						<h:selectOneMenu id="Eventos" value="#{createQuestions.nomEventoActual}">
     						<f:selectItems value="#{createQuestions.selectEventos}" />
+    						<f:ajax listener="#{createQuestions.printEvento}" />
 						</h:selectOneMenu>
                     </td>
                 </tr>
@@ -32,18 +33,24 @@ xmlns:p="http://primefaces.org/ui">
                 		<h:outputLabel  value="Question" />
                 	</td>
 	                <td>
-	                	<h:inputText id="PreguntaNueva"/>
+	                	<h:inputText id="PreguntaNueva" value="#{createQuestions.preguntaNueva}"/>
 	    			</td>
 	   
                 </tr>
                 <tr>
                 	<td>
-                		<h:outputLabel  value="Min Bet" />
+                		<h:outputLabel  value="Min Bet"/>
                 	</td>
 	                <td>
-	                	<h:inputText id="DineroMinimo"/>
+	                	<h:inputText id="DineroMinimo"  value="#{createQuestions.minBet}"/>
 	    			</td>
 	    			
+                </tr>
+                
+                <tr>
+                	<td>
+                		<h:commandButton value="Añadir" action="#{createQuestions.crearPregunta}"  />
+                	</td>
                 </tr>
             </table>
         </h:form>
