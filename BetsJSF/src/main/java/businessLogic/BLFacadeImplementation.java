@@ -1,14 +1,15 @@
 package businessLogic;
 
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+
 
 import configuration.ConfigXML;
 import dataAccess.DataAccessInterface;
+import dataAccess.HibernateDataAccess;
 import domain.Question;
 import domain.Event;
 import exceptions.EventFinished;
@@ -17,13 +18,13 @@ import exceptions.QuestionAlreadyExist;
 /**
  * It implements the business logic as a web service.
  */
-@WebService(endpointInterface = "businessLogic.BLFacade")
+
 public class BLFacadeImplementation  implements BLFacade {
-	DataAccessInterface dbManager;
+	HibernateDataAccess dbManager;
 
 	public BLFacadeImplementation()  {		
 		System.out.println("Creating BLFacadeImplementation instance");
-		ConfigXML c=ConfigXML.getInstance();
+
 		
 		/*if (c.getDataBaseOpenMode().equals("initialize")) {
 			
@@ -34,19 +35,12 @@ public class BLFacadeImplementation  implements BLFacade {
 		*/
 	}
 	
-    public BLFacadeImplementation(DataAccessInterface da)  {
+    public BLFacadeImplementation(HibernateDataAccess da)  {
 		
-		System.out.println("Creating BLFacadeImplementation instance with DataAccess parameter");
-		ConfigXML c=ConfigXML.getInstance();
-		
-		if (c.getDataBaseOpenMode().equals("initialize")) {
-			da.emptyDatabase();
-			da.open();
-			da.initializeDB();
-			da.close();
+		System.out.println("Creating BLFacadeImplementation instance with DataAccess parameter");	
 
-		}
-		dbManager=da;		
+			da.initializeDB();
+			dbManager=da;		
 	}
 	
 
@@ -60,11 +54,10 @@ public class BLFacadeImplementation  implements BLFacade {
 	 * @throws EventFinished if current data is after data of the event
  	 * @throws QuestionAlreadyExist if the same question already exists for the event
 	 */
-   @WebMethod
+   
    public Question createQuestion(Event event, String question, float betMinimum) throws EventFinished, QuestionAlreadyExist{
 	   
 	    //The minimum bed must be greater than 0
-		dbManager.open();
 		Question qry=null;
 		
 	    
@@ -74,7 +67,6 @@ public class BLFacadeImplementation  implements BLFacade {
 		
 		 qry=dbManager.createQuestion(event,question,betMinimum);		
 
-		dbManager.close();
 		
 		return qry;
    };
@@ -85,11 +77,10 @@ public class BLFacadeImplementation  implements BLFacade {
 	 * @param date in which events are retrieved
 	 * @return collection of events
 	 */
-    @WebMethod	
-	public Vector<Event> getEvents(Date date)  {
-		dbManager.open();
-		Vector<Event>  events=dbManager.getEvents(date);
-		dbManager.close();
+    
+	public List<Event> getEvents(Date date)  {
+
+		List<Event>  events=dbManager.getEvents(date);
 		return events;
 	}
 
@@ -100,32 +91,21 @@ public class BLFacadeImplementation  implements BLFacade {
 	 * @param date of the month for which days with events want to be retrieved 
 	 * @return collection of dates
 	 */
-	@WebMethod public Vector<Date> getEventsMonth(Date date) {
-		dbManager.open();
-		Vector<Date>  dates=dbManager.getEventsMonth(date);
-		dbManager.close();
+	public List<Date> getEventsMonth(Date date) {
+
+		Vector<Date> dates=dbManager.getEventsMonth(date);
 		return dates;
 	}
 	
 	
-	public void close() {
-		//DataAccess dB4oManager=new DataAccess(false);
-
-		//dB4oManager.close();
-		dbManager.close();
-
-
-	}
 
 	/**
 	 * This method invokes the data access to initialize the database with some events and questions.
 	 * It is invoked only when the option "initialize" is declared in the tag dataBaseOpenMode of resources/config.xml file
-	 */	
-    @WebMethod	
+	 */		
 	 public void initializeBD(){
-    	dbManager.open();
 		dbManager.initializeDB();
-		dbManager.close();
+
 	}
 
 }

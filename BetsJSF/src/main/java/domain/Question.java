@@ -3,25 +3,22 @@ package domain;
 import java.io.*;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlIDREF;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 
 @SuppressWarnings("serial")
-@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 public class Question implements Serializable {
 	
 	@Id 
-	@XmlJavaTypeAdapter(IntegerAdapter.class)
 	@GeneratedValue
 	private Integer questionNumber;
 	private String question; 
 	private float betMinimum;
-	private String result;  
-	@XmlIDREF
+	private String result;
+	@ManyToOne(targetEntity=Event.class)
 	private Event event;
 
 	public Question(){
@@ -157,9 +154,6 @@ public class Question implements Serializable {
 	public String toString(){
 		return questionNumber+";"+question+";"+Float.toString(betMinimum);
 	}
-
-
-
 
 	
 }

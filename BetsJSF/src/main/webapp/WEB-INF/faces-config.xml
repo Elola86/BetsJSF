@@ -17,6 +17,7 @@
 		<managed-bean-class>modelo.bean.QueryQuestionsBean</managed-bean-class>
 		<managed-bean-scope>application</managed-bean-scope>
 	</managed-bean>
+	
 	<navigation-rule>
  		<display-name>Main.xhtml</display-name>
  		<from-view-id>/Main.xhtml</from-view-id>
