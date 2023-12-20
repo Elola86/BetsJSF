@@ -121,20 +121,5 @@ public class QueryQuestionsBean {
 		}
 		 
 	}
-
-	public void printEvento()
-	{
-		
-		for(Event eventos: listaEventos)
-		{	
-			if(eventos.toString().equals(this.nombreEvento))
-			{
-				evActual = eventos;
-			}
-		}
-		System.out.println(evActual.toString());
-		//System.out.println(eventoActual.getDescription());
-		
-	}
 	
 }
