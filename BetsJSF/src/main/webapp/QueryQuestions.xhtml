@@ -17,65 +17,32 @@ xmlns:p="http://primefaces.org/ui">
 <h:messages id="mensajes" style="color:blue"/>
 <div style="display: flex;">
 	<p:calendar id="fecha"  navigator="true" mode="inline" value="#{queryQuestions.fechaEvento}" style="margin-right: 20px">
-	<p:ajax event="dateSelect" listener="#{queryQuestions.guardarEventos}" update="tablaEvents"></p:ajax>
+	<p:ajax event="dateSelect" listener="#{queryQuestions.guardarEventos}" update="tablaEvents tablaQuestions"></p:ajax>
 	</p:calendar>
 	
-	<h:dataTable id="tablaEvents" value="#{queryQuestions.fechaEvento}" var="fecha" border="1">
+	<h:dataTable id="tablaEvents" value="" var="evento" border="1" >
 	  	<h:column>
  			<f:facet name="header">Event#</f:facet>
- 			#{numEvento}
+ 			#{queryQuestions.numEvento}
 		</h:column> 
 		<h:column>
  			<f:facet name="header">Events</f:facet>
- 			#{nomEvento}
+ 			#{queryQuestions.nombreEvento}
 		</h:column>
 	</h:dataTable>
 	
 </div>
 <h3 style="margin-left: 200px">Questions</h3>
-<style>
-    .question-table {
-        border-collapse: collapse;
-        width: 50%;
-        border: 1px solid #000;
-        table-layout: fixed; /* Agregar table-layout: fixed */
-    }
-
-    .question-table th,
-    .question-table td {
-        border: 1px solid #000;
-        padding: 8px;
-        text-align: left;
-    }
-
-    .question-table .columna-izquierda {
-        width: 5px;
-        /* Otros estilos si es necesario */
-    }
-
-    .question-table .columna-derecha {
-        width: 30px;
-        /* Otros estilos si es necesario */
-    }
-</style>
-<table class="question-table" style="margin-left: 200px">
-        <thead>
-            <tr>
-                <th style="width: 5px;">Event#</th> <!-- Establecer ancho en el th directamente -->
-                <th style="width: 30px;">Event</th> <!-- Establecer ancho en el th directamente -->
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="columna-izquierda"></td>
-                <td class="columna-derecha"></td>
-            </tr>
-            <tr>
-                <td class="columna-izquierda"></td>
-                <td class="columna-derecha"></td>
-            </tr>
-        </tbody>
-</table>
+<h:dataTable id="tablaQuestions" value="#{queryQuestions.listaPreguntas}" var="pregunta" border="1" >
+	  	<h:column>
+ 			<f:facet name="header">Question#</f:facet>
+ 			#{pregunta.questionNumber}
+		</h:column> 
+		<h:column>
+ 			<f:facet name="header">Questions</f:facet>
+ 			#{pregunta.question}
+		</h:column>
+	</h:dataTable>
 <p>
 <h:commandButton value="Close" action="close" style="font-size: 16px; padding: 6px 40px; margin-left: 400px" immediate="true" />
 </p>
