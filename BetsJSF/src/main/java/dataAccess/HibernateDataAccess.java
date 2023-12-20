@@ -98,11 +98,11 @@ public class HibernateDataAccess {
 					
 			if (Locale.getDefault().equals(new Locale("es"))) {
 				q1=ev1.addQuestion("�Quien ganara el partido?",1);
-				q2=ev1.addQuestion("¿Quién meterá el primer gol?",2);
-				q3=ev11.addQuestion("¿Quién ganará el partido?",1);
-				q4=ev11.addQuestion("¿Cuántos goles se marcarán?",2);
-				q5=ev17.addQuestion("¿Quién ganará el partido?",1);
-				q6=ev17.addQuestion("¿Habrá goles en la primera parte?",2);
+				q2=ev1.addQuestion("�Quien metera el primer gol?",2);
+				q3=ev11.addQuestion("�Quien ganara el partido?",1);
+				q4=ev11.addQuestion("�Cuantos goles se marcaran?",2);
+				q5=ev17.addQuestion("�Quien ganara el partido?",1);
+				q6=ev17.addQuestion("�Habra goles en la primera parte?",2);
 			}
 			else if (Locale.getDefault().equals(new Locale("en"))) {
 				q1=ev1.addQuestion("Who will win the match?",1);
