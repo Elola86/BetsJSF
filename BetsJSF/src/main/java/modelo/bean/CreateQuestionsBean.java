@@ -30,15 +30,15 @@ public class CreateQuestionsBean {
 	
 	private List<Event> listaEventos;
 	
-	Event evActual; 
+	private Event evActual; 
 	
-	Float minBet;
+	private Float minBet;
 	
-	String preguntaNueva;
+	private String preguntaNueva;
 
 	private Event eventoActual;
 	
-	BLFacade facade;
+	private BLFacade facade;
 	
 	public List<Event> getListaEventos() {
 		return listaEventos;
