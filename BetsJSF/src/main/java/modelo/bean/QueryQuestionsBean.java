@@ -23,8 +23,6 @@ public class QueryQuestionsBean {
 	
 	private List<Event> listaEventos;
 	
-	private Event evActual; 
-	
 	private List<Question> listaPreguntas;
 
 	public String getNumEvento() {
@@ -41,13 +39,6 @@ public class QueryQuestionsBean {
 
 	public void setListaEventos(List<Event> listaEventos) {
 		this.listaEventos = listaEventos;
-	}
-	public Event getEvActual() {
-		return evActual;
-	}
-
-	public void setEvActual(Event evActual) {
-		this.evActual = evActual;
 	}
 
 	public String getNombreEvento() {
@@ -92,19 +83,21 @@ public class QueryQuestionsBean {
 		System.out.println(fechaEvento);
 		
 		listaEventos = facade.getEvents(fechaEvento);
+		 
+	}
+	
+	public void guardarPreguntas(Event evento) {
 		numEvento=null;
 		nombreEvento=null;
 		listaPreguntas=null;
 		if(listaEventos.size()>1) {
-			evActual = listaEventos.get(0);
-			numEvento=evActual.getEventNumber().toString();            
-            nombreEvento=evActual.getDescription();
+			numEvento=evento.getEventNumber().toString();            
+            nombreEvento=evento.getDescription();
             
-            this.setListaPreguntas(evActual.getQuestions());
+            this.setListaPreguntas(evento.getQuestions());
             System.out.println(listaPreguntas.toString());
-            System.out.println(evActual);
+            System.out.println(evento);
 		}
-		 
 	}
 	
 }

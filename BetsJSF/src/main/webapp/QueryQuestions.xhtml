@@ -21,15 +21,19 @@ xmlns:p="http://primefaces.org/ui">
 	</p:calendar>
 
 	
-	<h:dataTable id="tablaEvents" value="" var="evento" border="1" >
+	<h:dataTable id="tablaEvents" value="#{queryQuestions.listaEventos}" var="evento" border="1" >
 	  	<h:column>
  			<f:facet name="header">Event#</f:facet>
- 			#{queryQuestions.numEvento}
+ 			#{evento.eventNumber}
 		</h:column> 
 		<h:column>
  			<f:facet name="header">Events</f:facet>
- 			#{queryQuestions.nombreEvento}
+ 			#{evento.description}
 		</h:column>
+		 <h:column>
+            <f:facet name="header">Acción</f:facet>
+            <h:commandLink value="Guardar" action="#{queryQuestions.guardarPreguntas(evento)}" />
+        </h:column>
 	</h:dataTable>
 	
 </div>
