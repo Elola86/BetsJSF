@@ -182,9 +182,12 @@ public class CreateQuestionsBean {
 	
 	public void crearPregunta()
 	{
-		
-		
-		if(this.minBet == null )
+		if(this.preguntaNueva == "" )
+		{
+			condicion = true;
+			mensajeError= "Introduce una pregunta";
+		}
+		else if(this.minBet == null )
 		{
 			condicion = true;
 			mensajeError= "Introduce cantidad minima";
@@ -209,7 +212,7 @@ public class CreateQuestionsBean {
 			catch(Exception e)
 			{
 				condicion = true;
-				mensajeError = "Formato de texto no valido en alguno de los datos introducidos";
+				mensajeError = "Evento no seleccionado";
 			}
 		}
 		

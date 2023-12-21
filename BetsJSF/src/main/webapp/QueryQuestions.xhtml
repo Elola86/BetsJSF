@@ -19,6 +19,7 @@ xmlns:p="http://primefaces.org/ui">
 	<p:calendar id="fecha"  navigator="true" mode="inline" value="#{queryQuestions.fechaEvento}" style="margin-right: 20px">
 	<p:ajax event="dateSelect" listener="#{queryQuestions.guardarEventos}" update="tablaEvents tablaQuestions"></p:ajax>
 	</p:calendar>
+
 	
 	<h:dataTable id="tablaEvents" value="" var="evento" border="1" >
 	  	<h:column>
