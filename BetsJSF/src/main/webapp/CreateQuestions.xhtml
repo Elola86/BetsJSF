@@ -8,6 +8,7 @@ xmlns:p="http://primefaces.org/ui">
 <f:view>
     <h:head>
         <title>Query Questions</title>
+        <link rel="stylesheet" type="text/css" href="resources/style.css"/>
     </h:head>
     <h:body>
         <h:form>
@@ -28,12 +29,17 @@ xmlns:p="http://primefaces.org/ui">
                     </td>
                 </tr>
          
+	         	<tr id="mensajeError" style="color: #{createQuestions.condicion ? 'red' : 'blue'}">
+	         		<td>
+       					 #{createQuestions.mensajeError}
+   					</td>
+	         	</tr>
                 <tr>
                 	<td>
-                		<h:outputLabel  value="Question" />
+                		<h:outputLabel  value="Question" style=" padding: 1px 1px;"/>
                 	</td>
 	                <td>
-	                	<h:inputText id="PreguntaNueva" value="#{createQuestions.preguntaNueva}"/>
+	                	<h:inputText id="PreguntaNueva" value="#{createQuestions.preguntaNueva}" style="margin-left: -250px"/>
 	    			</td>
 	   
                 </tr>
@@ -42,18 +48,19 @@ xmlns:p="http://primefaces.org/ui">
                 		<h:outputLabel  value="Min Bet"/>
                 	</td>
 	                <td>
-	                	<h:inputText id="DineroMinimo"  value="#{createQuestions.minBet}"/>
+	                	<h:inputText id="DineroMinimo"  value="#{createQuestions.minBet}" style=" margin-left: -250px"/>
+	                	<h:message for="DineroMinimo" style="color: red" />
 	    			</td>
 	    			
                 </tr>
                 
                 <tr>
                 	<td>
-                		<h:commandButton value="Añadir" action="#{createQuestions.crearPregunta}"  />
+                		<h:commandButton value="Añadir" action="#{createQuestions.crearPregunta}" update="mensajeError" />
                 	</td>
                 
                 	<td>
-                		<h:commandButton value="Volver" action="close" immediate="true"/>
+                		<h:commandButton value="Volver" action="close" immediate="true" style=" margin-left: -250px;"/>
                 	</td>
                 </tr>
                 

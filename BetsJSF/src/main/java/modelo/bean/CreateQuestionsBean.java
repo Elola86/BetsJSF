@@ -40,6 +40,10 @@ public class CreateQuestionsBean {
 	
 	private BLFacade facade;
 	
+	private String mensajeError;
+	
+	private boolean condicion;
+	
 	public List<Event> getListaEventos() {
 		return listaEventos;
 	}
@@ -109,6 +113,8 @@ public class CreateQuestionsBean {
 	
 	public  CreateQuestionsBean()
 	{
+		condicion = true;
+		mensajeError = "";
 		facade = new BLFacadeImplementation();
 		setNomEventoActual(null);
 		fechaEvento = new Date();
@@ -176,18 +182,55 @@ public class CreateQuestionsBean {
 	
 	public void crearPregunta()
 	{
-		System.out.println(this.evActual + this.preguntaNueva + this.minBet);
 		
-		try {
-			facade.createQuestion(this.evActual, this.preguntaNueva, this.minBet);
-		} catch (EventFinished e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (QuestionAlreadyExist e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+		if(this.minBet == null )
+		{
+			condicion = true;
+			mensajeError= "Introduce cantidad minima";
+		}
+		else if(this.minBet<1) {
+			condicion = true;
+			mensajeError= "La cantidad minima debe ser mayor o igual a 1";
+		}
+		else {
+			try {
+				facade.createQuestion(this.evActual, this.preguntaNueva, this.minBet);
+				mensajeError = "Pregunta creada";
+				
+				condicion = false;
+			} catch (EventFinished e) {
+				condicion = true;
+				mensajeError= "El Evento ya ha finalizado";
+			} catch (QuestionAlreadyExist e) {
+				condicion = true;
+				mensajeError = "La pregunta ya existe";
+			}
+			catch(Exception e)
+			{
+				condicion = true;
+				mensajeError = "Formato de texto no valido en alguno de los datos introducidos";
+			}
 		}
 		
+		
+		
+	}
+
+	public String getMensajeError() {
+		return mensajeError;
+	}
+
+	public void setMensajeError(String mensajeError) {
+		this.mensajeError = mensajeError;
+	}
+
+	public boolean isCondicion() {
+		return condicion;
+	}
+
+	public void setCondicion(boolean condicion) {
+		this.condicion = condicion;
 	}
 
 	
