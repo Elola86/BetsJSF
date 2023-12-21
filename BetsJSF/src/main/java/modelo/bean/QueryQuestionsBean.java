@@ -12,7 +12,6 @@ import domain.Question;
 
 public class QueryQuestionsBean {
 
-	
 	private Date fechaEvento;
 
 	private BLFacade facade;
